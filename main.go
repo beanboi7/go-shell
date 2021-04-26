@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
 	"strings"
 )
 
@@ -21,7 +22,8 @@ func main() {
 		}
 
 		if err = execute(text); err != nil {
-			fmt.Fprintln(os.Stderr, err)
+			//fmt.Fprintln(os.Stderr, err)
+			print("\nerror from Inside the main body")
 		}
 		break
 	}
@@ -54,9 +56,27 @@ func execute(input string) error {
 			return errors.New("Enter name of directory to be removed")
 		}
 
-		err := os.Remove(arg[1])
+		err := os.RemoveAll(arg[1])
 		if err != nil {
-			log.Fatal(err)
+			print("inside rm body: ", err)
+		}
+	case "ok":
+		val, _ := os.Hostname()
+		fmt.Println("Host machine: " + val)
+
+	case "read":
+		if len(arg) < 2 {
+			return errors.New("File required to read")
+		}
+		data, _ := os.ReadFile(arg[1])
+		os.Stdout.Write(data)
+	case "say":
+		if arg[1] == "my" && arg[2] == "name" {
+			name, err := user.Current()
+			if err != nil {
+				log.Fatal(err)
+			}
+			print("Heisenberg's ", name.Username)
 		}
 
 	}
