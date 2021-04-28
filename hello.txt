@@ -1,2 +1,13 @@
 im the funni hehe
 AMOGUS red sus
+
+Always put the go.mod in the root directory
+To import a local package:
+> go mod init <module name> first
+
+then import it in the main.go using modulename/package
+
+This is the way
+
+check
+merging
